@@ -1,0 +1,25 @@
+<h2>Assign a todo to developer</h2>
+
+<%= form_tag(assign_developer_todos_path, method: :post) do %>
+
+  <%= label_tag :project_id, "Select project:" %>
+  <%= select_tag :project_id, options_for_select(@projects.pluck(:name, :id), @project.id), onchange: "reloadPage(this.value)" %>
+  <br>
+  <%= label_tag :todo_id, "Select todo:" %>
+  <%= select_tag :todo_id, options_for_select(@todos.pluck(:name, :id), nil) %>
+  <br>
+  <%= label_tag :developer_id, "Select developer:" %>
+  <%= select_tag :developer_id, options_for_select(@developers.pluck(:name, :id), nil) %>
+  <br>
+  <%= submit_tag("Assign") %>
+
+<% end %>
+
+<span style="color:green;"><%= flash[:message]%></span>
+
+<script type="text/javascript">
+	function reloadPage(projectId){
+		var url = window.location.origin + window.location.pathname;
+		window.location = url + "?project_id=" + projectId;
+	}
+</script>

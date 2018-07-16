@@ -1,0 +1,18 @@
+default: &default
+  adapter: mysql2
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  username: root
+  password: root
+  host: localhost
+
+development:
+  <<: *default
+  database: todos_manager_dev
+
+test:
+  <<: *default
+  database: todos_manager_test
+
+# production:
+#   <<: *default
+#   database: db/production.sqlite3

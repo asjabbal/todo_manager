@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Assigned Todos</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Todo Name</th>
+      <th>Project Name</th>
+      <th>Status</th>
+      <th colspan="1">Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @data.each do |todo| %>
+      <tr>
+        <td><%= todo.name %></td>
+        <td><%= todo.project.name %></td>
+        <td><%= Todo::STATUS_TEXT[todo.status] %></td>
+        <td><%= link_to 'Update status', edit_todo_path(todo) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%#= link_to 'New Todo', new_todo_path %>

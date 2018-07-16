@@ -1,0 +1,35 @@
+<%= form_with(model: todo, local: true) do |form| %>
+  <% if todo.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(todo.errors.count, "error") %> prohibited this todo from being saved:</h2>
+
+      <ul>
+      <% todo.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%if current_user.is_manager?%>
+    <div class="field">
+      <%= form.label :name %>
+      <%= form.text_field :name %>
+    </div>
+
+    <div class="field">
+      <%= form.label :project_id %>
+      <%= form.select :project_id, current_user.projects.pluck(:name, :id) %>
+    </div>
+  <%end%>
+
+  <%if current_user.is_developer?%>
+    <%= form.label :status, "Select status:" %>
+    <%= form.select :status, [[Todo::STATUS_TEXT[Todo::IN_PROGRESS], Todo::IN_PROGRESS], [Todo::STATUS_TEXT[Todo::DONE], Todo::DONE]] %>
+    <br>
+  <%end%>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

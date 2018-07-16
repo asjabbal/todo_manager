@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>TodosManager</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag    'application', media: 'all' %>
+    <%= javascript_include_tag 'application' %>
+
+    <script type="text/javascript" src="https://www.google.com/jsapi?autoload={'modules':[{'name':'visualization','version':'1.1','packages': ['corechart']}]}"></script>
+    <script type="text/javascript">
+      // google.charts.load("current", {packages:["corechart"]});
+
+    </script>
+  </head>
+
+  <body>
+    <%= render partial: "shared/header"%>
+    <%= alert%>
+    <%= yield %>
+  </body>
+</html>

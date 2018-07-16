@@ -1,0 +1,22 @@
+<% if user_signed_in? %>
+
+	<%= link_to('Home', root_path) %> | 
+
+	<%if current_user.is_manager?%>
+		<%= link_to 'Projects', projects_path %> | 
+		<%= link_to('Create a new Project', new_project_path) %> | 
+
+		<%= link_to 'Todos', todos_path %> | 
+		<%= link_to('Create a new Todo in Project', new_todo_path) %> | 
+
+		<%= link_to 'Assign a Project to Developer', assign_developer_projects_path %> | 
+		<%= link_to 'Assign a Todo to Developer', assign_developer_todos_path %> | 
+	<%end%>
+
+	<%= link_to('Logout', destroy_user_session_path, method: :delete) %>
+
+	<br>
+
+	<h2>Welcome back <%= current_user.name%>(<%= current_user.email%>)</h2>
+
+<% end %>

@@ -1,0 +1,79 @@
+<%= label_tag :view_type, "Select view type:" %>
+<%= select_tag :view_type, options_for_select([["Developer", "developer"], ["Project", "project"]], params[:view_type]), onchange: "reloadPage(this.value)" %>
+
+<br>
+
+<table id="data_table">
+	<thead>
+		<% @data[:names].each{|arr| %>
+			<tr>
+				<th>Status</th>
+				<% arr.each{|e| %>
+					<th class="solid_border_left"><%=e%></th>
+				<% } %>
+			</tr>
+		<% } %>
+	</thead>
+
+	<tbody>
+		<% @data[:done_todos].each_with_index{|arr, i| %>
+			<tr <%if i==0%> class="dashed_border_top" <%end%>>
+				<td><%= "Done" if i==0%></td>
+				<% arr.each{|e| %>
+					<td class="solid_border_left"><%=e%></td>
+				<% } %>
+			</tr>
+		<% } %>
+
+		<% @data[:inprogress_todos].each_with_index{|arr, i| %>
+			<tr <%if i==0%> class="dashed_border_top" <%end%>>
+				<td><%= "In Progress" if i==0%></td>
+				<% arr.each{|e| %>
+					<td class="solid_border_left"><%=e%></td>
+				<% } %>
+			</tr>
+		<% } %>
+
+		<% @data[:new_todos].each_with_index{|arr, i| %>
+			<tr <%if i==0%> class="dashed_border_top" <%end%>>
+				<td><%= "New" if i==0%></td>
+				<% arr.each{|e| %>
+					<td class="solid_border_left"><%=e%></td>
+				<% } %>
+			</tr>
+		<% } %>
+	</tbody>
+</table>
+
+<%if params[:view_type] == "project"%>
+	<% @data[:names][0].each_with_index{|e, i| %>
+		<div id="pie_chart_<%=i%>"></div>
+	<% } %>
+<%end%>
+
+<script type="text/javascript">
+	function reloadPage(viewType){
+		var url = window.location.origin + window.location.pathname;
+		window.location = url + "?view_type=" + viewType;
+	}
+
+  // google.charts.setOnLoadCallback(drawChart);
+  function drawChart(raw_data, title, container_id) {
+    var data = google.visualization.arrayToDataTable(raw_data);
+
+    var options = {
+      title: title,
+      is3D: true,
+      pieSliceText: 'value'
+    };
+
+    var chart = new google.visualization.PieChart(document.getElementById(container_id));
+    chart.draw(data, options);
+  }
+
+  <%if params[:view_type] == "project"%>
+	  <% @data[:names][0].each_with_index{|e, i| %>
+			drawChart(<%=raw @data[:pie_chart_data][i]%>, '<%=e%>', 'pie_chart_<%=i%>');
+		<% } %>
+	<%end%>
+</script>
